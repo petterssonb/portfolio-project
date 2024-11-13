@@ -11,6 +11,7 @@ DHT dht(DHTPIN, DHTTYPE);
 
 BLECharacteristic *pCharacteristic;
 bool deviceConnected = false;
+String macAddress;
 
 class MyCallbacks : public BLEServerCallbacks {
     void onConnect(BLEServer* pServer) {
@@ -27,6 +28,10 @@ void setup() {
     dht.begin();
 
     BLEDevice::init("ESP32_Sensor");
+    macAddress = BLEDevice::getAddress().toString().c_str();
+    Serial.print("Device MAC Address: ");
+    Serial.println(macAddress);
+
     BLEServer *pServer = BLEDevice::createServer();
     pServer->setCallbacks(new MyCallbacks());
 
@@ -53,7 +58,10 @@ void loop() {
         return;
     }
 
-    String jsonData = "{\"temperature\": " + String(temperature) + ", \"humidity\": " + String(humidity) + "}";
+    String jsonData = "{\"temperature\": " + String(temperature) + 
+                      ", \"humidity\": " + String(humidity) + 
+                      ", \"macAddress\": \"" + macAddress + "\"}";
+    
     if (deviceConnected) {
         pCharacteristic->setValue(jsonData.c_str());
         pCharacteristic->notify();
