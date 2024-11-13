@@ -10,7 +10,6 @@ wished structure:
 	•	IoT Core rules or direct data processing functions can route data to DynamoDB, storing it in a structured way for further processing.
 	4.	DynamoDB -> Lambda:
 	5.	Lambda -> Grafana:
-	•	A DynamoDB stream triggers the Lambda function whenever new data is added. This Lambda function retrieves the new entries, processes them if needed, and then forwards them to Grafana.
 	•	The Lambda function sends the processed data to Grafana, where it’s visualized in near real-time.
 
 Key Benefits of This Architecture:
