@@ -25,11 +25,8 @@ aws_client.configureOfflinePublishQueueing(-1)
 aws_client.configureDrainingFrequency(2)
 aws_client.configureConnectDisconnectTimeout(10)
 aws_client.configureMQTTOperationTimeout(5)
-
 aws_client.connect()
 
-last_data_received = datetime.now()
-new_data_received = False
 esp32_address = None
 esp32_found = False
 
@@ -45,57 +42,55 @@ def update_shadow(state):
 
 
 def notification_handler(sender, data):
-    global last_data_received, new_data_received
+    """Handles data received from the ESP32."""
     json_data = data.decode('utf-8')
     print(f"Received data from ESP32: {json_data}")
 
-    payload = {
-        "macAddress": esp32_address,
-        "data": json_data,
-        "status": "online",
-        "timestamp": datetime.now().isoformat(),
-    }
+    payload = json.loads(json_data)
+    payload["status"] = "online"
 
     aws_client.publish(AWS_TOPIC, json.dumps(payload), 1)
-    print("Data and status sent to AWS IoT Core:", payload)
+    print("Data with status sent to AWS IoT Core:", payload)
 
     update_shadow({"last_data_received": json_data})
-    last_data_received = datetime.now()
-    new_data_received = True
 
 
 async def find_esp32():
-    """Continuously scan for the ESP32 and send offline status while not found."""
+    """Scans for ESP32 and sends offline status while not found."""
     global esp32_address, esp32_found
+
     last_offline_sent = datetime.now()
 
     while not esp32_found:
         print("Scanning for ESP32...")
         devices = await BleakScanner.discover()
+
+        if datetime.now() - last_offline_sent >= timedelta(seconds=15):
+            payload = {
+                "temperature": None,
+                "humidity": None,
+                "macAddress": None,
+                "status": "offline",
+            }
+            aws_client.publish(AWS_TOPIC, json.dumps(payload), 1)
+            print("Offline status sent to AWS IoT Core.")
+            last_offline_sent = datetime.now()
+
         for device in devices:
             if device.name and "ESP32_Sensor" in device.name:
                 esp32_address = device.address
                 esp32_found = True
                 print(f"Found ESP32 with address: {esp32_address}")
                 return
-        if datetime.now() - last_offline_sent >= timedelta(seconds=15):
-            payload = {
-                "macAddress": None,
-                "data": None,
-                "status": "offline",
-                "timestamp": datetime.now().isoformat(),
-            }
-            aws_client.publish(AWS_TOPIC, json.dumps(payload), 1)
-            print("Offline status sent to AWS IoT Core.")
-            last_offline_sent = datetime.now()
+
         await asyncio.sleep(5)
 
 
 async def monitor_connection(client):
-    """Monitor the connection with the ESP32 and restart scanning if it disconnects."""
+    """Monitors the connection with the ESP32."""
     global esp32_found, esp32_address
     try:
-        while await client.is_connected():
+        while client.is_connected:
             await asyncio.sleep(1)
     except Exception as e:
         print(f"ESP32 disconnected: {e}")
@@ -105,34 +100,14 @@ async def monitor_connection(client):
         await find_esp32()
 
 
-async def send_status_periodically():
-    """Send 'online' status to AWS every 15 seconds."""
-    global last_data_received, new_data_received, esp32_found
-    while True:
-        await asyncio.sleep(15)
-        if esp32_found:
-            current_time = datetime.now()
-            status = "online" if new_data_received else "offline"
-            payload = {
-                "macAddress": esp32_address,
-                "data": None,
-                "status": status,
-                "timestamp": current_time.isoformat(),
-            }
-            aws_client.publish(AWS_TOPIC, json.dumps(payload), 1)
-            print(f"Periodic status sent to AWS IoT Core:", payload)
-            new_data_received = False
-
-
 async def main():
-    global esp32_found, esp32_address
+    global esp32_address, esp32_found
     while True:
         await find_esp32()
-
         async with BleakClient(esp32_address) as client:
             print(f"Connected to ESP32 with MAC address: {esp32_address}")
             await client.start_notify(CHARACTERISTIC_UUID, notification_handler)
-            await asyncio.gather(send_status_periodically(), monitor_connection(client))
+            await monitor_connection(client)
 
 
 if __name__ == "__main__":
