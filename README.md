@@ -16,6 +16,8 @@ This project demonstrates the implementation of a scalable and secure IoT data p
 
 ## Architecture Overview
 
+![](screenshots/drawio.jpg)
+
 ### Data Flow:
 
 1.	ESP32 → Raspberry Pi (via Bluetooth):
