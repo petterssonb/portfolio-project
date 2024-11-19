@@ -1,22 +1,18 @@
-## Portfolio Project: IoT Data Pipeline with ESP32, Raspberry Pi, and AWS
+## Portfolio Project: IoT Data Pipeline with ESP32, Raspberry Pi, AWS IoT Core and Grafana
 
 This project demonstrates the implementation of a scalable and secure IoT data pipeline, focusing on real-time environmental monitoring and visualization. The architecture integrates an ESP32, Raspberry Pi, AWS IoT Core, DynamoDB, Lambda, and Grafana, enabling real-time data flow, analysis, and visualization.
 
 ### Table of Contents
 
-1.  Architecture Overview
-
-2.	Use Case
-
-3.	Project Components
-
-4.	Key Benefits
-
-5.	Setup Instructions
-
-6.	How It Works
-
-7.	Future Improvements
+- [Architecture Overview](#architecture-overview)
+- [Use Case](#use-case)
+- [Project Components](#project-components)
+- [Key Benefits](#key-benefits)
+- [Setup Instructions](#setup-instructions)
+- [How It Works](#how-it-works)
+- [Future Improvements](#future-improvements)
+- [License](#license)
+- [Contributions](#contributions)
 
 ## Architecture Overview
 
@@ -37,7 +33,7 @@ This project demonstrates the implementation of a scalable and secure IoT data p
 5.	Lambda → Grafana:
  - The processed data is sent to Grafana for real-time visualization and analytics.
 
-### Use Case
+## Use Case
 
 This project serves Industrial IoT (IIoT) scenarios, specifically for:
 	
@@ -45,7 +41,7 @@ This project serves Industrial IoT (IIoT) scenarios, specifically for:
 	
  - Data-Driven Insights: Enable anomaly detection and alert configurations for proactive decision-making and preventive maintenance.
 
-### Project Components
+## Project Components
 
 1.	ESP32:
  - Collects sensor data and sends it to the Raspberry Pi via Bluetooth.
@@ -66,7 +62,7 @@ This project serves Industrial IoT (IIoT) scenarios, specifically for:
 6.	Grafana:
  - Visualizes processed data in near real-time.
 
-### Key Benefits
+## Key Benefits
 
   ### Modular and Scalable:
  - Independent components can be scaled or modified as needed.
@@ -75,9 +71,9 @@ This project serves Industrial IoT (IIoT) scenarios, specifically for:
  - Secure and Reliable:
  - Utilizes AWS services for secure data transfer and controlled access.
 
-### Setup Instructions
+## Setup Instructions
 
-Prerequisites
+### Prerequisites
 
 - ***Hardware***:
  - ESP32 with sensors
@@ -88,7 +84,7 @@ Prerequisites
  - Visualization Tools:
  - Grafana with AWS Data Source Plugin
 
-Steps:
+***Steps***:
 
  1.	ESP32 Configuration:
  - Connect sensors to the ESP32.
@@ -111,7 +107,7 @@ Steps:
 6.	Grafana Dashboard:
  - Configure a Grafana dashboard to visualize data using AWS CloudWatch or other data sources.
 
-### How It Works
+## How It Works
 
  1.	The ESP32 collects sensor readings (e.g., temperature, humidity) and sends them to the Raspberry Pi over Bluetooth.
 
@@ -123,16 +119,16 @@ Steps:
 
  5.	The processed data is sent to Grafana for visualization in near real-time.
 
-### Future Improvements
+## Future Improvements
 
  - Add support for more sensors and data types.
  - Incorporate AWS Machine Learning services for predictive analytics.
  - Improve fault tolerance and redundancy using AWS IoT SiteWise or similar services.
 
-### License
+## License
 
 This project is licensed under the ***MIT License***. See the ***LICENSE*** file for details.
 
-### Contributions
+## Contributions
 
 Contributions are welcome! Please open an issue or submit a pull request for enhancements or bug fixes.
