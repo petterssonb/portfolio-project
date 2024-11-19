@@ -1,6 +1,7 @@
 import json
 import asyncio
 from bleak import BleakClient, BleakScanner
+from bleak.exc import BleakDeviceNotFoundError
 from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTClient
 import os
 from dotenv import load_dotenv
@@ -88,7 +89,7 @@ async def monitor_connection(client):
     """Monitors the connection with the ESP32."""
     global esp32_found, esp32_address
     try:
-        while client.is_connected:
+        while await client.is_connected():
             await asyncio.sleep(1)
     except Exception as e:
         print(f"ESP32 disconnected: {e}")
@@ -102,10 +103,16 @@ async def main():
     global esp32_address, esp32_found
     while True:
         await find_esp32()
-        async with BleakClient(esp32_address) as client:
-            print(f"Connected to ESP32 with MAC address: {esp32_address}")
-            await client.start_notify(CHARACTERISTIC_UUID, notification_handler)
-            await monitor_connection(client)
+        try:
+            async with BleakClient(esp32_address) as client:
+                print(f"Connected to ESP32 with MAC address: {esp32_address}")
+                await client.start_notify(CHARACTERISTIC_UUID, notification_handler)
+                await monitor_connection(client)
+        except BleakDeviceNotFoundError:
+            print(f"ESP32 with address {esp32_address} not found. Restarting scan...")
+            esp32_found = False
+            esp32_address = None
+            await find_esp32()
 
 
 if __name__ == "__main__":
