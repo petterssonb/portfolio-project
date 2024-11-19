@@ -84,7 +84,7 @@ async def find_esp32():
 
         await asyncio.sleep(5)
 
-
+# Fix future warning error, property line 92.
 async def monitor_connection(client):
     """Monitors the connection with the ESP32."""
     global esp32_found, esp32_address
