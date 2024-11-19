@@ -59,8 +59,9 @@ void loop() {
     }
 
     String jsonData = "{\"temperature\": " + String(temperature) + 
-                      ", \"humidity\": " + String(humidity) + 
-                      ", \"macAddress\": \"" + macAddress + "\"}";
+                  ", \"humidity\": " + String(humidity) + 
+                  ", \"macAddress\": \"" + macAddress + "\"" + 
+                  ", \"status\": \"online\"}";
     
     if (deviceConnected) {
         pCharacteristic->setValue(jsonData.c_str());

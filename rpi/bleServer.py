@@ -47,8 +47,6 @@ def notification_handler(sender, data):
     print(f"Received data from ESP32: {json_data}")
 
     payload = json.loads(json_data)
-    payload["status"] = "online"
-
     aws_client.publish(AWS_TOPIC, json.dumps(payload), 1)
     print("Data with status sent to AWS IoT Core:", payload)
 
@@ -65,11 +63,11 @@ async def find_esp32():
         print("Scanning for ESP32...")
         devices = await BleakScanner.discover()
 
-        if datetime.now() - last_offline_sent >= timedelta(seconds=15):
+        if datetime.now() - last_offline_sent >= timedelta(seconds=60):
             payload = {
-                "temperature": None,
-                "humidity": None,
-                "macAddress": None,
+                "temperature": 0.0,
+                "humidity": 0.0,
+                "macAddress": "00:00:00:00:00:00",
                 "status": "offline",
             }
             aws_client.publish(AWS_TOPIC, json.dumps(payload), 1)
