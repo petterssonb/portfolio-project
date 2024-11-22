@@ -1,8 +1,10 @@
-## Portfolio Project: IoT Data Pipeline with ESP32, Raspberry Pi, AWS IoT Core and AWS Amplify
+# **Portfolio Project: IoT Data Pipeline with ESP32, Raspberry Pi, AWS IoT Core, and AWS Amplify**
 
-This project demonstrates the implementation of a scalable and secure IoT data pipeline, focusing on real-time environmental monitoring and visualization. The architecture integrates an ESP32, Raspberry Pi, AWS IoT Core, DynamoDB, Lambda and AWS Amplify with a React frontend, enabling real-time data flow, analysis, and visualization.
+This project showcases the implementation of a **scalable and secure IoT data pipeline**, designed for real-time environmental monitoring and visualization. By leveraging a combination of edge devices (ESP32, Raspberry Pi) and cloud services (AWS IoT Core, DynamoDB, Lambda, AWS Amplify), this solution enables seamless **data flow, analysis, and visualization** in industrial IoT scenarios.
 
-### Table of Contents
+---
+
+## **Table of Contents**
 
 - [Architecture Overview](#architecture-overview)
 - [Use Case](#use-case)
@@ -14,125 +16,175 @@ This project demonstrates the implementation of a scalable and secure IoT data p
 - [License](#license)
 - [Contributions](#contributions)
 
-## Architecture Overview
+---
 
-![](screenshots/drawio.jpg)
+## **Architecture Overview**
 
-### Data Flow:
+![Architecture Diagram](screenshots/drawio.jpg)
 
-1.	ESP32 → Raspberry Pi (via Bluetooth):
-   -	The ESP32 collects environmental data (e.g., temperature, humidity) from sensors and transmits it to the Raspberry Pi using Bluetooth.
+The architecture integrates hardware and cloud components to create a real-time data pipeline:
 
-2.	Raspberry Pi → AWS IoT Core:
-  - The Raspberry Pi processes incoming data and publishes it to AWS IoT Core for secure ingestion.
+### **Data Flow**:
+1. **ESP32 → Raspberry Pi (via Bluetooth):**
+   - The ESP32 collects environmental data (e.g., temperature, humidity) from connected sensors and transmits it to the Raspberry Pi over Bluetooth.
 
-3.	AWS IoT Core → DynamoDB:
-  -	IoT Core rules or processing functions route the data to DynamoDB for structured storage.
+2. **Raspberry Pi → AWS IoT Core:**
+   - The Raspberry Pi processes the incoming data and securely publishes it to AWS IoT Core using MQTTS.
 
-4.	DynamoDB → Lambda:
-  - Lambda retrieves data from the database and formats it.
-	
-5.	Lambda → AWS Amplify (React Frontend):
- - The processed data is made available to AWS Amplify, which powers a React-based web application for real-time visualization and user interaction.
+3. **AWS IoT Core → DynamoDB:**
+   - IoT Core routes the sensor data to a DynamoDB table for structured and scalable storage.
 
-## Use Case
+4. **DynamoDB → AWS Lambda:**
+   - Lambda functions retrieve, process, and prepare the data for visualization.
 
-This project serves Industrial IoT (IIoT) scenarios, specifically for:
-	
- - Real-Time Monitoring: Track environmental conditions such as temperature and humidity in warehouses, factories, and industrial facilities.
-	
- - Data-Driven Insights: Enable anomaly detection and alert configurations for proactive decision-making and preventive maintenance.
+5. **AWS Lambda → AWS Amplify (React Frontend):**
+   - The processed data is visualized in near real-time via a React-based web application powered by AWS Amplify.
 
-## Project Components
+---
 
-1.	ESP32:
- - Collects sensor data and sends it to the Raspberry Pi via Bluetooth.
+## **Use Case**
 
-2.	Raspberry Pi:
- - Acts as an intermediary between the ESP32 and AWS IoT Core.
- - Runs a Bluetooth service and publishes sensor data to AWS.
+This solution is tailored for **Industrial IoT (IIoT)** applications, with the following key use cases:
 
-3.	AWS IoT Core:
- - Provides secure ingestion and routing of data from the Raspberry Pi to AWS services.
+- **Real-Time Monitoring:**
+  - Track critical environmental conditions (e.g., temperature, humidity) in facilities such as warehouses, factories, and data centers.
 
-4.	DynamoDB:
- - Stores sensor data in a structured format, enabling further processing.
+- **Data-Driven Insights:**
+  - Enable anomaly detection, real-time alerts, and data analytics for informed decision-making and preventive maintenance.
 
-5.	AWS Lambda:
- - Processes data from DynamoDB and prepares it for visualization.
+---
 
-6.	AWS Amplify / React:
- - Visualizes processed data in near real-time.
+## **Project Components**
 
-## Key Benefits
+### **Hardware**:
+1. **ESP32**:
+   - Gathers sensor data and transmits it to the Raspberry Pi via Bluetooth.
+2. **Raspberry Pi**:
+   - Serves as an intermediary for data processing and publishing to AWS IoT Core.
 
-  ### Modular and Scalable:
- - Independent components can be scaled or modified as needed.
- - Real-Time Data Flow:
- - Ensures quick processing and visualization of sensor data.
- - Secure and Reliable:
- - Utilizes AWS services for secure data transfer and controlled access.
- - Secure visualization through account creation and login screen.
+### **Cloud Services**:
+1. **AWS IoT Core**:
+   - Facilitates secure ingestion of data from edge devices.
+2. **DynamoDB**:
+   - Stores structured sensor data for scalable querying and analysis.
+3. **AWS Lambda**:
+   - Processes and formats data for visualization.
+4. **AWS Amplify**:
+   - Hosts the React web application for real-time data visualization.
 
-## Setup Instructions
+### **Frontend**:
+- **React Application**:
+  - Displays dynamic visualizations and offers user-friendly interaction with the data.
 
-### Prerequisites
+---
 
-- ***Hardware***:
- - ESP32 with sensors
- - Raspberry Pi
- - AWS Services:
- - AWS IoT Core, DynamoDB, Lambda
- - IAM roles with appropriate permissions
- - Visualization Tools:
- - AWS Amplify
+## **Key Benefits**
 
-***Steps***:
+1. **Modular and Scalable Architecture**:
+   - Easily extendable for additional sensors, devices, or cloud services.
 
- 1.	ESP32 Configuration:
- - Connect sensors to the ESP32.
- - Configure Bluetooth communication.
-  
-2.	Raspberry Pi Setup:
- - Install necessary libraries (pybluez, submodules).
- - Set up a script to receive Bluetooth data and publish it to AWS IoT Core.
+2. **Real-Time Data Flow**:
+   - Ensures seamless monitoring and quick visualization of critical metrics.
 
-3.	AWS IoT Core:
- - Create a Thing and configure certificates.
- - Set up IoT Core rules to route data to DynamoDB.
+3. **Secure and Reliable**:
+   - Built on AWS's robust security framework for controlled data access and transfer.
 
-4.	DynamoDB Table:
- - Create a table to store sensor data with attributes like timestamp, temperature, and humidity.
+4. **User-Friendly Frontend**:
+   - Provides secure login and data insights through an intuitive interface.
 
-5.	AWS Lambda:
- - Write a function to process DynamoDB and forward data to Grafana.
+---
 
-6.	AWS Amplify:
- - Configure a AWS Amplify template and configure it.
+## **Setup Instructions**
 
-## How It Works
+### **Prerequisites**
 
- 1.	The ESP32 collects sensor readings (e.g., temperature, humidity) and sends them to the Raspberry Pi over Bluetooth.
+- **Hardware**:
+  - ESP32 with connected sensors.
+  - Raspberry Pi (Bluetooth-enabled).
+- **AWS Services**:
+  - AWS IoT Core, DynamoDB, Lambda, and Amplify.
+  - IAM roles with appropriate permissions for each service.
+- **Frontend**:
+  - React development environment.
 
- 2.	The Raspberry Pi publishes the data to AWS IoT Core using MQTTS.
+---
 
- 3.	AWS IoT Core routes the data to a DynamoDB table using IoT rules.
- 
- 4.	Lambda trigger DynamoDB contents
+### **Steps to Set Up**
 
- 5.	The processed data is sent to Amplify for visualization in near real-time.
+#### **1. Configure ESP32:**
+- Connect sensors to the ESP32.
+- Program the ESP32 to collect data and transmit it via Bluetooth.
 
-## Future Improvements
+#### **2. Set Up Raspberry Pi:**
+- Install required libraries (e.g., `pybluez`).
+- Write a Python script to:
+  - Receive data over Bluetooth.
+  - Publish data to AWS IoT Core using MQTTS.
 
- - Add support for more sensors and data types.
- - Incorporate AWS Machine Learning services for predictive analytics.
- - Improve fault tolerance and redundancy using AWS IoT SiteWise or similar services.
- - UI for the gateway part.
+#### **3. Configure AWS IoT Core:**
+- Create an IoT "Thing" and generate certificates.
+- Define IoT Core rules to route incoming data to DynamoDB.
 
-## License
+#### **4. Create DynamoDB Table:**
+- Define a table with attributes such as `timestamp`, `temperature`, `humidity` etc.
 
-This project is licensed under the ***MIT License***. See the ***LICENSE*** file for details.
+#### **5. Deploy AWS Lambda:**
+- Write a Lambda function to:
+  - Retrieve data from DynamoDB.
+  - Format it for visualization.
 
-## Contributions
+#### **6. Set Up AWS Amplify:**
+- Initialize an Amplify project.
+- Build and deploy a React web application for real-time data visualization.
 
-Contributions are welcome! Please open an issue or submit a pull request for enhancements or bug fixes.
+---
+
+## **How It Works**
+
+1. **Data Collection**:
+   - The ESP32 collects sensor data and sends it to the Raspberry Pi over Bluetooth.
+
+2. **Data Ingestion**:
+   - The Raspberry Pi publishes the data to AWS IoT Core securely using MQTTS.
+
+3. **Data Storage**:
+   - IoT Core routes the incoming data to DynamoDB for persistence.
+
+4. **Data Processing**:
+   - AWS Lambda processes the stored data and prepares it for visualization.
+
+5. **Data Visualization**:
+   - The React frontend (hosted on AWS Amplify) displays the data in real-time for user interaction.
+
+---
+
+## **Future Improvements**
+
+1. **Extended Sensor Support**:
+   - Add compatibility for additional sensors (e.g., CO2, light, motion).
+
+2. **Advanced Analytics**:
+   - Integrate AWS Machine Learning for predictive maintenance and anomaly detection.
+
+3. **Fault Tolerance**:
+   - Enhance reliability with AWS IoT SiteWise or redundancy mechanisms.
+
+4. **Enhanced Gateway UI**:
+   - Build a GUI for Raspberry Pi to simplify configuration and monitoring.
+
+---
+
+## **License**
+
+This project is licensed under the **MIT License**. See the `LICENSE` file for details.
+
+---
+
+## **Contributions**
+
+Contributions are welcome! Feel free to open issues or submit pull requests for:
+- Feature enhancements.
+- Bug fixes.
+- Documentation improvements.
+
+---
