@@ -174,6 +174,12 @@ This solution is tailored for **Industrial IoT (IIoT)** applications, with the f
 
 ---
 
+## **Frontend Repository**
+
+The frontend React application is hosted in a separate repository. You can find it [here](https://github.com/petterssonb/amplify-vite-react-template).
+
+---
+
 ## **License**
 
 This project is licensed under the **MIT License**. See the `LICENSE` file for details.
