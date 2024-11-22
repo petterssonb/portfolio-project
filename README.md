@@ -1,6 +1,6 @@
-## Portfolio Project: IoT Data Pipeline with ESP32, Raspberry Pi, AWS IoT Core and Grafana
+## Portfolio Project: IoT Data Pipeline with ESP32, Raspberry Pi, AWS IoT Core and AWS Amplify
 
-This project demonstrates the implementation of a scalable and secure IoT data pipeline, focusing on real-time environmental monitoring and visualization. The architecture integrates an ESP32, Raspberry Pi, AWS IoT Core, DynamoDB, Lambda, and Grafana, enabling real-time data flow, analysis, and visualization.
+This project demonstrates the implementation of a scalable and secure IoT data pipeline, focusing on real-time environmental monitoring and visualization. The architecture integrates an ESP32, Raspberry Pi, AWS IoT Core, DynamoDB, Lambda and AWS Amplify with a React frontend, enabling real-time data flow, analysis, and visualization.
 
 ### Table of Contents
 
@@ -30,10 +30,10 @@ This project demonstrates the implementation of a scalable and secure IoT data p
   -	IoT Core rules or processing functions route the data to DynamoDB for structured storage.
 
 4.	DynamoDB → Lambda:
- -	DynamoDB Streams trigger a Lambda function to process and format the data.
+  - Lambda retrieves data from the database and formats it.
 	
-5.	Lambda → Grafana:
- - The processed data is sent to Grafana for real-time visualization and analytics.
+5.	Lambda → AWS Amplify (React Frontend):
+ - The processed data is made available to AWS Amplify, which powers a React-based web application for real-time visualization and user interaction.
 
 ## Use Case
 
@@ -61,7 +61,7 @@ This project serves Industrial IoT (IIoT) scenarios, specifically for:
 5.	AWS Lambda:
  - Processes data from DynamoDB and prepares it for visualization.
 
-6.	Grafana:
+6.	AWS Amplify / React:
  - Visualizes processed data in near real-time.
 
 ## Key Benefits
@@ -72,6 +72,7 @@ This project serves Industrial IoT (IIoT) scenarios, specifically for:
  - Ensures quick processing and visualization of sensor data.
  - Secure and Reliable:
  - Utilizes AWS services for secure data transfer and controlled access.
+ - Secure visualization through account creation and login screen.
 
 ## Setup Instructions
 
@@ -84,7 +85,7 @@ This project serves Industrial IoT (IIoT) scenarios, specifically for:
  - AWS IoT Core, DynamoDB, Lambda
  - IAM roles with appropriate permissions
  - Visualization Tools:
- - Grafana with AWS Data Source Plugin
+ - AWS Amplify
 
 ***Steps***:
 
@@ -106,8 +107,8 @@ This project serves Industrial IoT (IIoT) scenarios, specifically for:
 5.	AWS Lambda:
  - Write a function to process DynamoDB and forward data to Grafana.
 
-6.	Grafana Dashboard:
- - Configure a Grafana dashboard to visualize data using AWS CloudWatch or other data sources.
+6.	AWS Amplify:
+ - Configure a AWS Amplify template and configure it.
 
 ## How It Works
 
@@ -119,13 +120,14 @@ This project serves Industrial IoT (IIoT) scenarios, specifically for:
  
  4.	Lambda trigger DynamoDB contents
 
- 5.	The processed data is sent to Grafana for visualization in near real-time.
+ 5.	The processed data is sent to Amplify for visualization in near real-time.
 
 ## Future Improvements
 
  - Add support for more sensors and data types.
  - Incorporate AWS Machine Learning services for predictive analytics.
  - Improve fault tolerance and redundancy using AWS IoT SiteWise or similar services.
+ - UI for the gateway part.
 
 ## License
 
