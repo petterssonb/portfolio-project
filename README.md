@@ -197,7 +197,7 @@ The architecture of this project is designed with scalability in mind, ensuring 
    - Enhance reliability with AWS IoT SiteWise or redundancy mechanisms.
 
 4. **Enhanced Gateway UI**:
-   - Build a GUI for Raspberry Pi to simplify configuration and monitoring.
+   - Build a GUI for Raspberry Pi to simplify configuration and monitoring. From what is being used in Grafana locally.
 
 ---
 
