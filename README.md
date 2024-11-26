@@ -8,6 +8,7 @@ This project showcases the implementation of a **scalable and secure IoT data pi
 
 - [Architecture Overview](#architecture-overview)
 - [Use Case](#use-case)
+- [Screenshots](#screenshots)
 - [Scalability](#scalability)
 - [IoT Security](#iot-security)
 - [Project Components](#project-components)
@@ -45,6 +46,12 @@ The architecture integrates hardware and cloud components to create a real-time 
 
 5. **AWS Lambda → AWS Amplify (React Frontend):**
    - The processed data is visualized in near real-time via a React-based web application powered by AWS Amplify.
+
+---
+
+## **Screenshots**
+
+Click [here](content/README.md) to view the screenshots of the nodes (e.g., Raspberry Pi, Frontend)
 
 ---
 
