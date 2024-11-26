@@ -27,7 +27,7 @@ This project showcases the implementation of a **scalable and secure IoT data pi
 
 ## **Architecture Overview**
 
-![Architecture Diagram](screenshots/drawio.jpg)
+![Architecture Diagram](content/screenshots/drawio.jpg)
 
 The architecture integrates hardware and cloud components to create a real-time data pipeline:
 
