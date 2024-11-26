@@ -8,11 +8,18 @@ This project showcases the implementation of a **scalable and secure IoT data pi
 
 - [Architecture Overview](#architecture-overview)
 - [Use Case](#use-case)
+- [Screenshots](#screenshots)
+- [Scalability](#scalability)
+- [IoT Security](#iot-security)
 - [Project Components](#project-components)
+- [Requirements and Design Rationale](#requirements-and-design-rationale)
 - [Key Benefits](#key-benefits)
 - [Setup Instructions](#setup-instructions)
+  - [Prerequisites](#prerequisites)
+  - [Steps to Set Up](#steps-to-set-up)
 - [How It Works](#how-it-works)
 - [Future Improvements](#future-improvements)
+- [Frontend Repository](#frontend-repository)
 - [License](#license)
 - [Contributions](#contributions)
 
@@ -42,6 +49,12 @@ The architecture integrates hardware and cloud components to create a real-time 
 
 ---
 
+## **Screenshots**
+
+Click [here](content/README.md) to view the screenshots of the nodes (e.g., Raspberry Pi, Frontend)
+
+---
+
 ## **Use Case**
 
 This solution is tailored for **Industrial IoT (IIoT)** applications, with the following key use cases:
@@ -51,6 +64,52 @@ This solution is tailored for **Industrial IoT (IIoT)** applications, with the f
 
 - **Data-Driven Insights:**
   - Enable anomaly detection, real-time alerts, and data analytics for informed decision-making and preventive maintenance.
+
+---
+
+## **Scalability**
+
+The architecture of this project is designed with scalability in mind, ensuring it can handle increased workloads and additional features with minimal modifications. Here’s how scalability is achieved:
+
+1. **Modular Design**:
+   - Each component (data collection, processing, storage, and visualization) is loosely coupled, making it easy to scale individual services independently.
+
+2. **AWS IoT Core**:
+   - Can handle millions of connected devices and messages simultaneously, ensuring reliable communication even with a growing number of edge devices.
+
+3. **DynamoDB**:
+   - Automatically scales storage and throughput capacity to meet demand, providing consistent low-latency performance regardless of data volume.
+
+4. **Serverless Architecture**:
+   - AWS Lambda functions scale automatically to handle varying workloads, ensuring real-time data processing without over-provisioning resources.
+
+5. **Amplify Frontend**:
+   - Hosted on AWS Amplify, the React-based application can scale seamlessly to support a larger user base with increased traffic.
+
+6. **Horizontal Expansion**:
+   - Additional edge devices (ESP32s or Raspberry Pis) can be integrated without major changes to the existing pipeline, making the system adaptable to new requirements.
+
+7. **Global Reach**:
+   - AWS’s global infrastructure ensures that data processing and visualization can be distributed across multiple regions for reduced latency and improved reliability.
+
+---
+
+
+## **IoT Security**
+
+To ensure secure data flow throughout the pipeline, the following measures have been implemented:
+
+- **Communication Security:**
+  - **MQTTS:** Secure MQTT protocol with TLS encryption for data transfer between Raspberry Pi and AWS IoT Core.
+  - **Bluetooth Pairing:** The ESP32 and Raspberry Pi use secure Bluetooth pairing to prevent unauthorized device access.
+
+- **Cloud Security:**
+  - **IAM Roles:** AWS services are accessed through IAM roles with the principle of least privilege.
+  - **Encryption:** DynamoDB stores data with default encryption enabled, and Lambda functions access data through encrypted endpoints.
+  - **Certificate Management:** AWS IoT Core uses X.509 certificates for mutual authentication of connected devices.
+
+- **Physical Security:**
+  - The Raspberry Pi and ESP32 are configured with minimal open ports and require authentication for physical access.
 
 ---
 
@@ -75,6 +134,24 @@ This solution is tailored for **Industrial IoT (IIoT)** applications, with the f
 ### **Frontend**:
 - **React Application**:
   - Displays dynamic visualizations and offers user-friendly interaction with the data.
+
+---
+
+## **Requirements and Design Rationale**
+
+This solution was designed to address the following requirements:
+
+- **Organizational Need:** Real-time monitoring of environmental conditions in industrial facilities to prevent downtime and improve operational efficiency.
+
+- **Design Focus:** 
+  - **High Security:** Ensures confidentiality, integrity, and availability of data through end-to-end encryption, access control, and physical safeguards.
+  - **Scalability:** Supports growing workloads and additional devices without significant redesign.
+  - **Modularity:** Allows easy integration of new components or sensors as the use case evolves.
+
+- **Security Measures:** 
+  - **Data Integrity:** Ensured through encryption at rest and in transit.
+  - **Device Authentication:** Achieved through secure pairing and certificate-based access.
+  - **Cloud Compliance:** Built on AWS infrastructure with adherence to industry standards for IoT security.
 
 ---
 
@@ -171,6 +248,10 @@ This solution is tailored for **Industrial IoT (IIoT)** applications, with the f
 
 4. **Enhanced Gateway UI**:
    - Build a GUI for Raspberry Pi to simplify configuration and monitoring.
+
+5. **Status**
+   - Make Database handle state instead of frontend for alerts.
+   - Also make the status visible of the gateway, in this case rpi.
 
 ---
 
