@@ -81,6 +81,25 @@ The architecture of this project is designed with scalability in mind, ensuring 
 
 ---
 
+
+## **IoT Security**
+
+To ensure secure data flow throughout the pipeline, the following measures have been implemented:
+
+- **Communication Security:**
+  - **MQTTS:** Secure MQTT protocol with TLS encryption for data transfer between Raspberry Pi and AWS IoT Core.
+  - **Bluetooth Pairing:** The ESP32 and Raspberry Pi use secure Bluetooth pairing to prevent unauthorized device access.
+
+- **Cloud Security:**
+  - **IAM Roles:** AWS services are accessed through IAM roles with the principle of least privilege.
+  - **Encryption:** DynamoDB stores data with default encryption enabled, and Lambda functions access data through encrypted endpoints.
+  - **Certificate Management:** AWS IoT Core uses X.509 certificates for mutual authentication of connected devices.
+
+- **Physical Security:**
+  - The Raspberry Pi and ESP32 are configured with minimal open ports and require authentication for physical access.
+
+---
+
 ## **Project Components**
 
 ### **Hardware**:
@@ -102,6 +121,24 @@ The architecture of this project is designed with scalability in mind, ensuring 
 ### **Frontend**:
 - **React Application**:
   - Displays dynamic visualizations and offers user-friendly interaction with the data.
+
+---
+
+## **Requirements and Design Rationale**
+
+This solution was designed to address the following requirements:
+
+- **Organizational Need:** Real-time monitoring of environmental conditions in industrial facilities to prevent downtime and improve operational efficiency.
+
+- **Design Focus:** 
+  - **High Security:** Ensures confidentiality, integrity, and availability of data through end-to-end encryption, access control, and physical safeguards.
+  - **Scalability:** Supports growing workloads and additional devices without significant redesign.
+  - **Modularity:** Allows easy integration of new components or sensors as the use case evolves.
+
+- **Security Measures:** 
+  - **Data Integrity:** Ensured through encryption at rest and in transit.
+  - **Device Authentication:** Achieved through secure pairing and certificate-based access.
+  - **Cloud Compliance:** Built on AWS infrastructure with adherence to industry standards for IoT security.
 
 ---
 
