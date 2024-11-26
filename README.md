@@ -8,11 +8,17 @@ This project showcases the implementation of a **scalable and secure IoT data pi
 
 - [Architecture Overview](#architecture-overview)
 - [Use Case](#use-case)
+- [Scalability](#scalability)
+- [IoT Security](#iot-security)
 - [Project Components](#project-components)
+- [Requirements and Design Rationale](#requirements-and-design-rationale)
 - [Key Benefits](#key-benefits)
 - [Setup Instructions](#setup-instructions)
+  - [Prerequisites](#prerequisites)
+  - [Steps to Set Up](#steps-to-set-up)
 - [How It Works](#how-it-works)
 - [Future Improvements](#future-improvements)
+- [Frontend Repository](#frontend-repository)
 - [License](#license)
 - [Contributions](#contributions)
 
