@@ -4,6 +4,23 @@ This project showcases the implementation of a **scalable and secure IoT data pi
 
 ---
 
+## **Purpose**
+
+The primary goal of this project is to deliver a **streamlined and cost-effective IoT solution** tailored for real-time environmental monitoring. Each design decision was carefully considered to meet specific use case requirements while balancing functionality, scalability, and operational efficiency. 
+
+### **Why DynamoDB only for Storage Instead of S3 Buckets and/or cold storage?**
+
+- **Temporary Data Needs**: The monitored data (e.g., temperature, humidity) is only relevant for short-term analysis and insights, as it is refreshed daily to keep the system optimized and clutter-free. A cold storage solution like S3 would be excessive for this use case since historical data retention is unnecessary.
+- **Simplified Storage Architecture**: Using DynamoDB ensures structured, real-time querying and quick deletion of old data, streamlining data management while keeping the database current with only the most recent records.
+
+### **Why the Frontend Manages Offline/Online Status?**
+
+- **Cost Efficiency**: Implementing online/offline status and device alerting logic in the frontend reduces reliance on additional backend resources or complex database logic, lowering AWS service costs.
+- **Real-Time Responsiveness**: By handling connectivity status and alert mechanisms directly in the React application, users benefit from faster updates and a seamless interface, minimizing latency from backend interactions.
+- **Scalable Architecture**: This approach offloads computation from the backend, ensuring the system remains lightweight and scalable while maintaining robust functionality for monitoring device states.
+
+---
+
 ## **Table of Contents**
 
 - [Architecture Overview](#architecture-overview)
@@ -64,6 +81,9 @@ This solution is tailored for **Industrial IoT (IIoT)** applications, with the f
 
 - **Data-Driven Insights:**
   - Enable anomaly detection, real-time alerts, and data analytics for informed decision-making and preventive maintenance.
+
+- **Measurements daily**
+ - Daily measurements for daily monitoring of the measurements
 
 ---
 

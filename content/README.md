@@ -38,6 +38,10 @@
 
 ---
 
+## Device goes from online to offline alert
+
+![](screenshots/fromOnlineToOffline.jpg)
+
 ## Graphs while device is sending data
 
 ![](screenshots/frontendSending.jpg)
