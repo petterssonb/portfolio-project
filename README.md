@@ -17,6 +17,7 @@ The primary goal of this project is to deliver a **streamlined and cost-effectiv
 
 - **Cost Efficiency**: Implementing online/offline status and device alerting logic in the frontend reduces reliance on additional backend resources or complex database logic, lowering AWS service costs.
 - **Real-Time Responsiveness**: By handling connectivity status and alert mechanisms directly in the React application, users benefit from faster updates and a seamless interface, minimizing latency from backend interactions.
+- **Alerts**: By also handling the alerts in the frontend based on the timer of the offline status, the solution eliminates the need for additional backend processing, further reducing operational costs.
 - **Scalable Architecture**: This approach offloads computation from the backend, ensuring the system remains lightweight and scalable while maintaining robust functionality for monitoring device states.
 
 ---
