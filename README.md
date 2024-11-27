@@ -280,6 +280,8 @@ This solution was designed to address the following requirements:
 
 The frontend React application is hosted in a separate repository. You can find it [here](https://github.com/petterssonb/amplify-vite-react-template).
 
+[Go back to the top][#purpose]
+
 ---
 
 ## **License**
