@@ -4,39 +4,12 @@ This project showcases the implementation of a **scalable and secure IoT data pi
 
 ---
 
-## **Purpose**
-
-The primary goal of this project is to deliver a **streamlined and cost-effective IoT solution** tailored for real-time environmental monitoring. Each design decision was carefully considered to meet specific use case requirements while balancing functionality, scalability, and operational efficiency. 
-
-### **Why DynamoDB only for Storage Instead of S3 Buckets and/or cold storage?**
-
-- **Temporary Data Needs**: The monitored data (e.g., temperature, humidity) is only relevant for short-term analysis and insights, as it is refreshed daily to keep the system optimized and clutter-free. A cold storage solution like S3 would be excessive for this use case since historical data retention is unnecessary.
-- **Simplified Storage Architecture**: Using DynamoDB ensures structured, real-time querying and quick deletion of old data, streamlining data management while keeping the database current with only the most recent records.
-
-### **Why the Frontend Manages Offline/Online Status?**
-
-- **Cost Efficiency**: Implementing online/offline status and device alerting logic in the frontend reduces reliance on additional backend resources or complex database logic, lowering AWS service costs.
-- **Real-Time Responsiveness**: By handling connectivity status and alert mechanisms directly in the React application, users benefit from faster updates and a seamless interface, minimizing latency from backend interactions.
-- **Alerts**: By also handling the alerts in the frontend based on the timer of the offline status, the solution eliminates the need for additional backend processing, further reducing operational costs.
-- **Scalable Architecture**: This approach offloads computation from the backend, ensuring the system remains lightweight and scalable while maintaining robust functionality for monitoring device states.
-
-### **Why Send the Latest Temperature as an Alert When a Threshold Is Met?**
-
-- **Critical Information Delivery**: In industrial and scientific environments, temperature-sensitive materials and experiments require constant monitoring to prevent catastrophic losses. By integrating a real-time alerting mechanism, critical temperature thresholds can immediately trigger alerts to designated personnel, ensuring timely intervention.
-
-- **Preventing Catastrophic Losses**: This feature was inspired by a real-world incident at the Karolinska Institute in Sweden, where a freezer failure during the holiday period caused a temperature rise, destroying invaluable biological research materials, including blood and other sensitive samples. Due to delays in alerting the responsible teams, critical action was not taken in time, resulting in irreparable damage to years of research and impacting hundreds of scientists' careers. [Read more about the incident here](https://www.svt.se/nyheter/lokalt/stockholm/fryshaveri-pa-ki-aratal-av-forskning-forstord).
-
-- **Efficient Monitoring**: By only sending alerts when a critical threshold is breached, the system ensures that users are not overwhelmed with constant updates but are immediately notified of actionable conditions. This reduces the cognitive load on monitoring teams while still providing essential information when it matters most.
-
-- **Timely Action**: Real-time alerts ensure that corrective measures can be taken before a situation escalates, mitigating potential risks to experiments, equipment, and overall operations. This approach enhances reliability and fosters confidence in automated environmental monitoring systems.
-
----
-
 ## **Table of Contents**
 
 - [Architecture Overview](#architecture-overview)
-- [Use Case](#use-case)
 - [Screenshots](#screenshots)
+- [Purpose](#purpose)
+- [Use Case](#use-case)
 - [Scalability](#scalability)
 - [IoT Security](#iot-security)
 - [Project Components](#project-components)
@@ -83,6 +56,34 @@ The architecture integrates hardware and cloud components to create a real-time 
 ## **Screenshots**
 
 Click [here](content/README.md) to view the screenshots of the nodes (e.g., Raspberry Pi, Frontend)
+
+---
+
+## **Purpose**
+
+The primary goal of this project is to deliver a **streamlined and cost-effective IoT solution** tailored for real-time environmental monitoring. Each design decision was carefully considered to meet specific use case requirements while balancing functionality, scalability, and operational efficiency. 
+
+### **Why DynamoDB only for Storage Instead of S3 Buckets and/or cold storage?**
+
+- **Temporary Data Needs**: The monitored data (e.g., temperature, humidity) is only relevant for short-term analysis and insights, as it is refreshed daily to keep the system optimized and clutter-free. A cold storage solution like S3 would be excessive for this use case since historical data retention is unnecessary.
+- **Simplified Storage Architecture**: Using DynamoDB ensures structured, real-time querying and quick deletion of old data, streamlining data management while keeping the database current with only the most recent records.
+
+### **Why the Frontend Manages Offline/Online Status?**
+
+- **Cost Efficiency**: Implementing online/offline status and device alerting logic in the frontend reduces reliance on additional backend resources or complex database logic, lowering AWS service costs.
+- **Real-Time Responsiveness**: By handling connectivity status and alert mechanisms directly in the React application, users benefit from faster updates and a seamless interface, minimizing latency from backend interactions.
+- **Alerts**: By also handling the alerts in the frontend based on the timer of the offline status, the solution eliminates the need for additional backend processing, further reducing operational costs.
+- **Scalable Architecture**: This approach offloads computation from the backend, ensuring the system remains lightweight and scalable while maintaining robust functionality for monitoring device states.
+
+### **Why Send the Latest Temperature as an Alert When a Threshold Is Met?**
+
+- **Critical Information Delivery**: In industrial and scientific environments, temperature-sensitive materials and experiments require constant monitoring to prevent catastrophic losses. By integrating a real-time alerting mechanism, critical temperature thresholds can immediately trigger alerts to designated personnel, ensuring timely intervention.
+
+- **Preventing Catastrophic Losses**: This feature was inspired by a real-world incident at the Karolinska Institute in Sweden, where a freezer failure during the holiday period caused a temperature rise, destroying invaluable biological research materials, including blood and other sensitive samples. Due to delays in alerting the responsible teams, critical action was not taken in time, resulting in irreparable damage to years of research and impacting hundreds of scientists' careers. [Read more about the incident here](https://www.svt.se/nyheter/lokalt/stockholm/fryshaveri-pa-ki-aratal-av-forskning-forstord).
+
+- **Efficient Monitoring**: By only sending alerts when a critical threshold is breached, the system ensures that users are not overwhelmed with constant updates but are immediately notified of actionable conditions. This reduces the cognitive load on monitoring teams while still providing essential information when it matters most.
+
+- **Timely Action**: Real-time alerts ensure that corrective measures can be taken before a situation escalates, mitigating potential risks to experiments, equipment, and overall operations. This approach enhances reliability and fosters confidence in automated environmental monitoring systems.
 
 ---
 
@@ -343,7 +344,7 @@ This solution was designed to address the following requirements:
 
 The frontend React application is hosted in a separate repository. You can find it [here](https://github.com/petterssonb/amplify-vite-react-template).
 
-[Go back to the top](#purpose)
+[Go back to the top](#portfolio-project-iot-data-pipeline-with-esp32-raspberry-pi-aws-iot-core-and-aws-amplify)
 
 ---
 
