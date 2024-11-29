@@ -38,13 +38,17 @@
 
 ---
 
-## Device goes from online to offline alert
-
-![](screenshots/fromOnlineToOffline.jpg)
-
 ## Graphs while device is sending data
 
 ![](screenshots/frontendSending.jpg)
+
+## Telegram Alerts
+
+![](screenshots/alerts.jpg)
+
+## Device goes from online to offline alert
+
+![](screenshots/fromOnlineToOffline.jpg)
 
 ## Different user cannot see the same devices
 

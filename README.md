@@ -20,6 +20,16 @@ The primary goal of this project is to deliver a **streamlined and cost-effectiv
 - **Alerts**: By also handling the alerts in the frontend based on the timer of the offline status, the solution eliminates the need for additional backend processing, further reducing operational costs.
 - **Scalable Architecture**: This approach offloads computation from the backend, ensuring the system remains lightweight and scalable while maintaining robust functionality for monitoring device states.
 
+### **Why Send the Latest Temperature as an Alert When a Threshold Is Met?**
+
+- **Critical Information Delivery**: In industrial and scientific environments, temperature-sensitive materials and experiments require constant monitoring to prevent catastrophic losses. By integrating a real-time alerting mechanism, critical temperature thresholds can immediately trigger alerts to designated personnel, ensuring timely intervention.
+
+- **Preventing Catastrophic Losses**: This feature was inspired by a real-world incident at the Karolinska Institute in Sweden, where a freezer failure during the holiday period caused a temperature rise, destroying invaluable biological research materials, including blood and other sensitive samples. Due to delays in alerting the responsible teams, critical action was not taken in time, resulting in irreparable damage to years of research and impacting hundreds of scientists' careers. [Read more about the incident here](https://www.svt.se/nyheter/lokalt/stockholm/fryshaveri-pa-ki-aratal-av-forskning-forstord).
+
+- **Efficient Monitoring**: By only sending alerts when a critical threshold is breached, the system ensures that users are not overwhelmed with constant updates but are immediately notified of actionable conditions. This reduces the cognitive load on monitoring teams while still providing essential information when it matters most.
+
+- **Timely Action**: Real-time alerts ensure that corrective measures can be taken before a situation escalates, mitigating potential risks to experiments, equipment, and overall operations. This approach enhances reliability and fosters confidence in automated environmental monitoring systems.
+
 ---
 
 ## **Table of Contents**
@@ -47,23 +57,26 @@ The primary goal of this project is to deliver a **streamlined and cost-effectiv
 
 ![Architecture Diagram](content/screenshots/drawio.jpg)
 
-The architecture integrates hardware and cloud components to create a real-time data pipeline:
+The architecture integrates hardware and cloud components to create a real-time data pipeline and adds a **hot path alert mechanism** for real-time notifications.
 
 ### **Data Flow**:
 1. **ESP32 → Raspberry Pi (via Bluetooth):**
-   - The ESP32 collects environmental data (e.g., temperature, humidity) from connected sensors and transmits it to the Raspberry Pi over Bluetooth.
+   - The ESP32 collects environmental data (e.g., temperature, humidity) and transmits it to the Raspberry Pi over Bluetooth.
 
 2. **Raspberry Pi → AWS IoT Core:**
    - The Raspberry Pi processes the incoming data and securely publishes it to AWS IoT Core using MQTTS.
 
-3. **AWS IoT Core → DynamoDB:**
+3. **AWS IoT Core → DynamoDB (Warm Path):**
    - IoT Core routes the sensor data to a DynamoDB table for structured and scalable storage.
 
-4. **DynamoDB → AWS Lambda:**
-   - Lambda functions retrieve, process, and prepare the data for visualization.
+4. **AWS IoT Core → AWS Lambda (Hot Path):**
+   - A Lambda function monitors incoming data. If a reading exceeds the threshold (24°C), it triggers an alert sent to a Telegram bot.
 
-5. **AWS Lambda → AWS Amplify (React Frontend):**
-   - The processed data is visualized in near real-time via a React-based web application powered by AWS Amplify.
+5. **AWS Lambda → DynamoDB → AWS Amplify (Visualization):**
+   - AWS Lambda retrieves, processes, and prepares the data from DynamoDB for visualization.
+
+6. **AWS Lambda → Telegram Bot (Alert Notifications):**
+   - The alert-generating Lambda sends a notification to the Telegram bot when a temperature threshold is crossed.
 
 ---
 
@@ -82,9 +95,6 @@ This solution is tailored for **Industrial IoT (IIoT)** applications, with the f
 
 - **Data-Driven Insights:**
   - Enable anomaly detection, real-time alerts, and data analytics for informed decision-making and preventive maintenance.
-
-- **Measurements daily**
- - Daily measurements for daily monitoring of the measurements
 
 ---
 
@@ -147,14 +157,18 @@ To ensure secure data flow throughout the pipeline, the following measures have 
    - Facilitates secure ingestion of data from edge devices.
 2. **DynamoDB**:
    - Stores structured sensor data for scalable querying and analysis.
-3. **AWS Lambda**:
-   - Processes and formats data for visualization.
-4. **AWS Amplify**:
+3. **AWS Lambda (Hot Path)**:
+   - Monitors incoming data for threshold breaches and triggers alerts.
+4. **AWS Lambda (Alert Watcher)**:
+   - Scheduled function that verifies recent measurements and ensures timely alerts.
+5. **AWS Amplify**:
    - Hosts the React web application for real-time data visualization.
 
-### **Frontend**:
-- **React Application**:
-  - Displays dynamic visualizations and offers user-friendly interaction with the data.
+### **Alerting Mechanism**:
+1. **Threshold Logic**:
+   - The Hot Path Lambda checks if the temperature exceeds 24°C. If so, an alert is sent.
+2. **Telegram Integration**:
+   - Alerts are sent to a pre-configured Telegram bot for real-time notifications.
 
 ---
 
@@ -209,31 +223,35 @@ This solution was designed to address the following requirements:
 
 ### **Steps to Set Up**
 
-#### **1. Configure ESP32:**
-- Connect sensors to the ESP32.
-- Program the ESP32 to collect data and transmit it via Bluetooth.
+1. **Configure ESP32**:
+   - Connect sensors to the ESP32.
+   - Program the ESP32 to collect data and transmit it via Bluetooth.
 
-#### **2. Set Up Raspberry Pi:**
-- Install required libraries (e.g., `pybluez`).
-- Write a Python script to:
-  - Receive data over Bluetooth.
-  - Publish data to AWS IoT Core using MQTTS.
+2. **Set Up Raspberry Pi**:
+   - Install required libraries (e.g., `pybluez`).
+   - Write a Python script to:
+     - Receive data over Bluetooth.
+     - Publish data to AWS IoT Core using MQTTS.
 
-#### **3. Configure AWS IoT Core:**
-- Create an IoT "Thing" and generate certificates.
-- Define IoT Core rules to route incoming data to DynamoDB.
+3. **Configure AWS IoT Core**:
+   - Create an IoT "Thing" and generate certificates.
+   - Define IoT Core rules to route incoming data to DynamoDB.
 
-#### **4. Create DynamoDB Table:**
-- Define a table with attributes such as `timestamp`, `temperature`, `humidity` etc.
+4. **Create DynamoDB Table**:
+   - Define a table with attributes such as `timestamp`, `temperature`, `humidity`.
 
-#### **5. Deploy AWS Lambda:**
-- Write a Lambda function to:
-  - Retrieve data from DynamoDB.
-  - Format it for visualization.
+5. **Deploy AWS Lambda**:
+   - Write a Lambda function to:
+     - Process incoming data for alerts.
+     - Send alerts to Telegram.
 
-#### **6. Set Up AWS Amplify:**
-- Initialize an Amplify project.
-- Build and deploy a React web application for real-time data visualization.
+6. **Set Up Telegram Bot**:
+   - Create a bot using the Telegram Bot API and obtain an access token.
+   - Configure the bot endpoint in the Lambda function.
+
+7. **Set Up AWS Amplify**:
+   - Initialize an Amplify project.
+   - Build and deploy a React web application for real-time
 
 ---
 
@@ -254,6 +272,9 @@ This solution was designed to address the following requirements:
 5. **Data Visualization**:
    - The React frontend (hosted on AWS Amplify) displays the data in real-time for user interaction.
 
+6. **Alerts**:
+   - Telegram alerts are sent by a bot triggered by a scheduled Lambda, which checks temperature thresholds before notifying users.
+
 ---
 
 ## **Future Improvements**
@@ -270,9 +291,51 @@ This solution was designed to address the following requirements:
 4. **Enhanced Gateway UI**:
    - Build a GUI for Raspberry Pi to simplify configuration and monitoring.
 
-5. **Status**
+5. **Status**:
    - Make Database handle state instead of frontend for alerts.
-   - Also make the status visible of the gateway, in this case rpi.
+   - Also make the status visible of the gateway, in this case Raspberry Pi.
+
+6. **Customizable Alert Thresholds**:
+   - Enable users to set and adjust temperature thresholds dynamically through the frontend, allowing flexibility for different use cases.
+
+7. **Alert Escalation Mechanism**:
+   - Implement a multi-tiered alert system (e.g., Telegram, email, SMS) to ensure critical notifications reach the appropriate stakeholders through multiple channels.
+
+8. **Historical Data Visualization**:
+   - Integrate a feature to visualize historical data trends, even if temporarily stored, to identify patterns or anomalies over time.
+
+9. **Integration with Third-Party Monitoring Tools**:
+   - Connect the pipeline with third-party tools like Grafana, Datadog, or Splunk for enhanced monitoring and visualization capabilities.
+
+10. **Edge Computing Optimization**:
+    - Perform preliminary data filtering and threshold checks directly on the Raspberry Pi to reduce cloud-side processing and latency.
+
+11. **Data Archiving**:
+    - Add support for optional cold storage (e.g., AWS S3) to archive older data for long-term analysis without impacting current database performance.
+
+12. **Geofencing Alerts**:
+    - Incorporate geolocation data (e.g., GPS-enabled sensors) to trigger location-based alerts, enabling targeted responses in large facilities.
+
+13. **Multi-Tenant Support**:
+    - Develop support for multiple users or organizations, with individual alert configurations, dashboards, and permissions.
+
+14. **Energy Efficiency Monitoring**:
+    - Expand the system to track energy consumption of devices or facilities, providing additional insights for operational efficiency.
+
+15. **Custom Alert Messages**:
+    - Allow administrators to configure custom messages or conditions for alerts, enhancing clarity and usability.
+
+16. **Mobile App Integration**:
+    - Create a mobile application for real-time monitoring and alerts, enabling easy access and management from anywhere.
+
+17. **Voice Assistant Integration**:
+    - Add compatibility with voice assistants (e.g., Alexa, Google Assistant) for hands-free monitoring and notifications.
+
+18. **AI-Powered Predictive Alerts**:
+    - Leverage AI/ML models to predict potential equipment failures or anomalies before they occur, based on historical and real-time data.
+
+19. **Global Deployment Support**:
+    - Enhance the system for seamless deployment across multiple regions, with localized alerting and monitoring capabilities.
 
 ---
 
