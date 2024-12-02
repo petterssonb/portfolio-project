@@ -34,7 +34,7 @@ The architecture integrates hardware and cloud components to create a real-time 
 
 ### **Data Flow**:
 1. **ESP32 → Raspberry Pi (via Bluetooth):**
-   - The ESP32 collects environmental data (e.g., temperature, humidity) and transmits it to the Raspberry Pi over Bluetooth.
+   - The ESP32 operates as a BLE server, collecting environmental data (e.g., temperature, humidity) and broadcasting it via notifications. The Raspberry Pi, acting as a BLE client, subscribes to these notifications to receive real-time updates.
 
 2. **Raspberry Pi → AWS IoT Core:**
    - The Raspberry Pi processes the incoming data and securely publishes it to AWS IoT Core using MQTTS.
@@ -119,7 +119,7 @@ The architecture of this project is designed with scalability in mind, ensuring 
    - Hosted on AWS Amplify, the React-based application can scale seamlessly to support a larger user base with increased traffic.
 
 6. **Horizontal Expansion**:
-   - Additional edge devices (ESP32s or Raspberry Pis) can be integrated without major changes to the existing pipeline, making the system adaptable to new requirements.
+   - Additional ESP32 devices can be added as independent BLE servers, each broadcasting sensor data. Gateways such as Raspberry Pis can act as BLE clients subscribing to these servers. This architecture supports seamless scaling by adding new ESP32 servers or Raspberry Pi gateways without modifying existing BLE communication logic.
 
 7. **Global Reach**:
    - AWS’s global infrastructure ensures that data processing and visualization can be distributed across multiple regions for reduced latency and improved reliability.
@@ -133,7 +133,7 @@ To ensure secure data flow throughout the pipeline, the following measures have 
 
 - **Communication Security:**
   - **MQTTS:** Secure MQTT protocol with TLS encryption for data transfer between Raspberry Pi and AWS IoT Core.
-  - **Bluetooth Pairing:** The ESP32 and Raspberry Pi use secure Bluetooth pairing to prevent unauthorized device access.
+  - **Bluetooth Pairing:** The ESP32 operates as a BLE server, broadcasting sensor data via notifications, and the Raspberry Pi acts as a BLE client, subscribing to these notifications. Secure pairing ensures that only authorized clients (e.g., the Raspberry Pi) can subscribe to the ESP32's data, preventing unauthorized access.
 
 - **Cloud Security:**
   - **IAM Roles:** AWS services are accessed through IAM roles with the principle of least privilege.
@@ -149,9 +149,9 @@ To ensure secure data flow throughout the pipeline, the following measures have 
 
 ### **Hardware**:
 1. **ESP32**:
-   - Gathers sensor data and transmits it to the Raspberry Pi via Bluetooth.
+   - Gathers sensor data and acts as a BLE server, broadcasting this data via notifications.
 2. **Raspberry Pi**:
-   - Serves as an intermediary for data processing and publishing to AWS IoT Core.
+   - Operates as a BLE client, subscribing to the ESP32’s notifications. It processes the received data and securely publishes it to AWS IoT Core.
 
 ### **Cloud Services**:
 1. **AWS IoT Core**:
@@ -226,13 +226,13 @@ This solution was designed to address the following requirements:
 
 1. **Configure ESP32**:
    - Connect sensors to the ESP32.
-   - Program the ESP32 to collect data and transmit it via Bluetooth.
+   - Program the ESP32 to collect data and advertise it as a BLE server characteristic via notifications.
 
 2. **Set Up Raspberry Pi**:
    - Install required libraries (e.g., `pybluez`).
    - Write a Python script to:
-     - Receive data over Bluetooth.
-     - Publish data to AWS IoT Core using MQTTS.
+     - Act as a BLE client subscribing to the ESP32’s notifications.
+     - Process the received data and securely publish it to AWS IoT Core using MQTTS.
 
 3. **Configure AWS IoT Core**:
    - Create an IoT "Thing" and generate certificates.
@@ -259,7 +259,7 @@ This solution was designed to address the following requirements:
 ## **How It Works**
 
 1. **Data Collection**:
-   - The ESP32 collects sensor data and sends it to the Raspberry Pi over Bluetooth.
+   - The ESP32 collects sensor data and operates as a BLE server, advertising this data via notifications. The Raspberry Pi, acting as a BLE client, subscribes to the ESP32’s notifications to receive real-time updates.
 
 2. **Data Ingestion**:
    - The Raspberry Pi publishes the data to AWS IoT Core securely using MQTTS.
