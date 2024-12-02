@@ -8,9 +8,9 @@
 
 ---
 
-## ESP32 Connecting to BLE server
+## Rpi connecting to ESP32 / ESP32 sending notification
 
-![](screenshots/esp32Connecting.jpg)
+![](screenshots/esp32Sending.jpg)
 
 ---
 
