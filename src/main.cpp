@@ -89,9 +89,9 @@ void loop() {
 
         for (int i = 0; i < 4; i++) {
             digitalWrite(GREEN_LED, HIGH);
-            delay(200);
+            delay(500);
             digitalWrite(GREEN_LED, LOW);
-            delay(200);
+            delay(500);
         }
     } else {
         Serial.println("BLE not connected.");
