@@ -64,9 +64,9 @@ void setup() {
 void loop() {
     if (isBlinkingBlue) {
         digitalWrite(BLUE_LED, HIGH);
-        delay(500);
+        delay(200);
         digitalWrite(BLUE_LED, LOW);
-        delay(500);
+        delay(200);
     }
 
     float temperature = dht.readTemperature();
