@@ -42,13 +42,17 @@
 
 ![](screenshots/frontendSending.jpg)
 
-## Telegram Alerts
+## Telegram temperature threshold acceeded alerts
 
 ![](screenshots/alerts.jpg)
 
 ## Device goes from online to offline alert
 
 ![](screenshots/fromOnlineToOffline.jpg)
+
+## Telegram notification when device goes from online to offline alert
+
+![](screenshots/offlineAlert.jpg)
 
 ## Different user cannot see the same devices
 

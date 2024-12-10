@@ -9,23 +9,35 @@
 #define DHTTYPE DHT11
 DHT dht(DHTPIN, DHTTYPE);
 
+#define GREEN_LED 25
+#define BLUE_LED 26
+
 BLECharacteristic *pCharacteristic;
 bool deviceConnected = false;
 String macAddress;
 
+bool isBlinkingBlue = true;
+
 class MyCallbacks : public BLEServerCallbacks {
     void onConnect(BLEServer* pServer) {
         deviceConnected = true;
+        isBlinkingBlue = false;
+        digitalWrite(BLUE_LED, HIGH);
     }
 
     void onDisconnect(BLEServer* pServer) {
         deviceConnected = false;
+        isBlinkingBlue = true;
+        digitalWrite(BLUE_LED, LOW);
     }
 };
 
 void setup() {
     Serial.begin(115200);
     dht.begin();
+
+    pinMode(BLUE_LED, OUTPUT);
+    pinMode(GREEN_LED, OUTPUT);
 
     BLEDevice::init("ESP32_Sensor");
     macAddress = BLEDevice::getAddress().toString().c_str();
@@ -50,6 +62,13 @@ void setup() {
 }
 
 void loop() {
+    if (isBlinkingBlue) {
+        digitalWrite(BLUE_LED, HIGH);
+        delay(200);
+        digitalWrite(BLUE_LED, LOW);
+        delay(200);
+    }
+
     float temperature = dht.readTemperature();
     float humidity = dht.readHumidity();
 
@@ -67,6 +86,13 @@ void loop() {
         pCharacteristic->setValue(jsonData.c_str());
         pCharacteristic->notify();
         Serial.println("Data sent via BLE: " + jsonData);
+
+        for (int i = 0; i < 4; i++) {
+            digitalWrite(GREEN_LED, HIGH);
+            delay(500);
+            digitalWrite(GREEN_LED, LOW);
+            delay(500);
+        }
     } else {
         Serial.println("BLE not connected.");
     }

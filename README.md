@@ -28,7 +28,7 @@ This project showcases the implementation of a **scalable and secure IoT data pi
 
 ## **Architecture Overview**
 
-![Architecture Diagram](content/screenshots/diagram.jpg)
+![Architecture Diagram](content/screenshots/newDiagram.jpg)
 
 The architecture integrates hardware and cloud components to create a real-time data pipeline and adds a **hot path alert mechanism** for real-time notifications.
 
